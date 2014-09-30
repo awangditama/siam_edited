@@ -20,7 +20,7 @@
                         <td> <?php echo $row->kelas; ?> </td>
                         <td> <?php echo $row->nama_ruang; ?> </td>                        
                         <td> <?php echo $row->hari; ?> , (<?php echo $row->waktu1; ?> - <?php echo $row->waktu2; ?>)   </td>                                        
-                        <td><a class="btn btn-success" href="<?php echo base_url(); ?>index.php/admin/detail_daftar_absensi/<?php echo $row->id?>/<?php echo $row->kelas?>"  title="Detail Data"><i class="icon-archive"></i> Edit </a></td>
+                        <td><a class="btn btn-success" href="<?php echo base_url(); ?>index.php/admin/detail_daftar_absensi/<?php echo $row->id_detail ?>/<?php echo $row->kelas ?>"  title="Detail Data"><i class="icon-archive"></i> Edit </a></td>
                     </tr>
                  <?php $no++; } ?>   
                 </tbody>

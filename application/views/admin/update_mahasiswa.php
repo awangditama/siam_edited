@@ -12,6 +12,24 @@
             echo form_open_multipart('admin/proses_update_mahasiswa/'.$data_mahasiswa->nim, $atrr); ?>
             <fieldset>
                 <div class="control-group">											
+                        <label class="control-label" for="lastname">Jenis Semester :</label>
+                        <div class="controls">
+                            <select name="jns_semester" id="semester" required>
+                                <?php
+                                foreach ($option_angkatan as $row) {
+                                    if ($row->thn_akademik1 == $data_mahasiswa->thn_angkatan) {
+                                        ?>                                
+                                        <option value="<?php echo $row->thn_akademik1 ?>" selected="true"><?php echo $row->thn_akademik1; ?></option>
+                                    <?php } else { ?>
+                                        <option value="<?php echo $row->thn_akademik1 ?>"><?php echo $row->thn_akademik1; ?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->
+                <div class="control-group">											
                     <label class="control-label" for="firstname">NIM :</label>
                     <div class="controls">
                         <input type="text" class="span3 required" id="nim" name="nim" value="<?php echo $data_mahasiswa->nim; ?>" readonly>

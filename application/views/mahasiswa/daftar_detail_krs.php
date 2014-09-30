@@ -34,13 +34,13 @@
                         <td>
                             <form style="margin-top: 10px;" action="<?php echo base_url();?>index.php/mahasiswa/proses_krs_mahasiswa" method="post" >
                                 <input type="hidden" name="id_pm" value="<?php echo $id_penawaran_matkul; ?>"/>
-                                 <input type="hidden" name="id_detail_pm" value="<?php echo $row->id;?>"/>
+                                 <input type="hidden" name="id_detail_pm" value="<?php echo $row->id_detail;?>"/>
                                  <button class="btn btn-success"  title="Detail Data" /><i class="icon-check"></i> Pilih </button>  
                             </form>    
                     </tr>
                  <?php $no++; } ?>   
                 </tbody>
-            </table>		
+               </table>	
         </div>
     </div>                       
 </div>

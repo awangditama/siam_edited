@@ -11,7 +11,7 @@
                     <div class="widget-content">		
                         <h6 class="bigstats" style="text-align:center;"><br>
                             <?php if($status_aktif){?>TAHUN AKADEMIK : <?php echo $thn_akademik;?><br>status : Aktif</br><?php
-                            }else{ echo "MASIH BELUM AKTIF TAHUN AKADEMIK"; }?>
+                            }else{ echo "MASIH BELUM AKTIF <BR> TAHUN AKADEMIK : $thn_akademik <BR>"; }?>
                             User Type : <?php if($this->session->userdata('type')==1)
                                 { echo "Admin";}else if($this->session->userdata('type')==2){ echo "Mahasiswa";}else{echo "Dosen"; }?>  </br></h6>                
                             

@@ -28,7 +28,6 @@
                                 <td><?php echo $no; ?></td>
                                 <td> <?php echo $row->nim; ?> </td>
                                 <td> <?php echo $row->nama; ?> </td>
-
                                 <td> 
                                     <?php if ($cek =='edit'){ 
                                              if($row->keterangan == 1){?>

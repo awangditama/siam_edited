@@ -56,6 +56,20 @@ class Model_m extends CI_Model {
             return false;
         }
     }
+    
+    function cek_krs_duplicate($id_pm,$id_status,$nim){
+        $query = $this->db->query("select * from penawaran_matkul_detail where id='$id_pm' and id_status='$id_status'");
+        $hasil = $query->row();
+        $hari = $hasil->hari;
+        $kd_waktu = $hasil->kd_waktu;
+        $query2 = $this->db->query("select * from krs,penawaran_matkul_detail 
+            where hari='$hari'and kd_waktu='$kd_waktu' and krs.id_status='$id_status' and krs.id_penawaran_matkul_detail = penawaran_matkul_detail.id and krs.nim='$nim'");
+        if ($query2->num_rows()>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 /* End of file welcome.php */

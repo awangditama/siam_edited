@@ -2,7 +2,7 @@
     <div class="widget ">
         <div class="widget-header">
             <i class="icon-user-md"></i>
-            <a href="<?php echo base_url(); ?>index.php/admin/detail_penawaran_matkul" class="kanan">
+            <a href="<?php echo base_url(); ?>index.php/admin/detail_penawaran_matkul/<?php echo $id;?>" class="kanan">
                 <i class="icon-arrow-left"></i></a>
             <h3>Tambah Penawaran Mata Kuliah</h3>
         </div> <!-- /widget-header -->

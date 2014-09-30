@@ -239,7 +239,8 @@ class Admin extends CI_Controller {
                 $telp = $this->input->post('telp', true);
                 $foto = $upload_data['file_name'];
                 $tanggal = $this->input->post('tanggal', true);
-                $query = $this->model->add_dosen($nip, $nama, $alamat, $tanggal, $gol, $jabatan, $jk, $foto, $telp);
+                 $format = date('Y-m-d', strtotime($tanggal ));       
+                $query = $this->model->add_dosen($nip, $nama, $alamat, $format, $gol, $jabatan, $jk, $foto, $telp);
                 $query1 = $this->model->add_login($nip, $pass, 3);
                 if ($query && $query1) {
                     $this->session->set_userdata('operation', "sukses");
@@ -267,10 +268,11 @@ class Admin extends CI_Controller {
             $tanggal = $this->input->post('tanggal', true);
             $telp = $this->input->post('telp', true);
             $foto_1 = $this->input->post('foto', true);
+             $format = date('Y-m-d', strtotime($tanggal ));
             if ($foto_1 != "") {
-                $query = $this->model->update_dosen_foto($nama, $alamat, $tanggal, $gol, $jk, $jabatan, $foto_1, $telp, $id);
+                $query = $this->model->update_dosen_foto($nama, $alamat, $format, $gol, $jk, $jabatan, $foto_1, $telp, $id);
             } else if ($this->model->check_foto($id) == "") {
-                $query = $this->model->update_dosen_tnp_foto($nama, $alamat, $tanggal, $gol, $jk, $jabatan, $telp, $id);
+                $query = $this->model->update_dosen_tnp_foto($nama, $alamat, $format, $gol, $jk, $jabatan, $telp, $id);
             } else {
                 $config['upload_path'] = './temp_upload/';
                 $config['allowed_types'] = 'gif|jpg|png';
@@ -333,6 +335,7 @@ class Admin extends CI_Controller {
         if ($this->session->userdata('login') != "") {
             $data = $this->session();
             $data1['option'] = $this->model->ambil_select('jk');
+            $data1['option_angkatan'] = $this->model->array_query('select thn_akademik1 from status group by thn_akademik1 ');
             $data['content'] = $this->load->view('admin/add_mahasiswa', $data1, true);
             $this->load->view('layout/template', $data);
         } else {
@@ -352,6 +355,7 @@ class Admin extends CI_Controller {
             } else {
                 $upload_data = $this->upload->data();
                 $nim = $this->input->post('nim', true);
+                $thn_angkatan = $this->input->post('thn_angkatan', true);           
                 $nama = $this->input->post('nama', true);
                 $alamat = $this->input->post('alamat', true);
                 $jk = $this->input->post('jk', true);
@@ -361,9 +365,10 @@ class Admin extends CI_Controller {
                 $tanggal = $this->input->post('tanggal', true);
                 $sma = $this->input->post('sma', true);
                 $foto = $upload_data['file_name'];
+                $format = date('Y-m-d', strtotime($tanggal ));
                 $thn_akademik = $this->input->post('thn_akademik', true);
-                $query = $this->model->add_mahasiswa($nim, $nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto);
-                $query1 = $this->model->add_login($nim, $pass, 1);
+                $query = $this->model->add_mahasiswa($nim, $nama, $alamat, $format, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto,$thn_angkatan);
+                $query1 = $this->model->add_login($nim, $pass, 2);
                 if ($query && $query1) {
                     $this->session->set_userdata('operation', "sukses");
                     $this->session->set_userdata('message', "Data Sukses di Simpan");
@@ -382,6 +387,7 @@ class Admin extends CI_Controller {
     public function update_mahasiswa($id) {
         $data = $this->session();
         $data1['option'] = $this->model->ambil_select('jk');
+        $data1['option_angkatan'] = $this->model->array_query('select thn_akademik1 from status group by thn_akademik1 ');    
         $data1['data_mahasiswa'] = $this->model->ambil_update_mahasiswa($id);
         $data['content'] = $this->load->view('admin/update_mahasiswa', $data1, true);
         $this->load->view('layout/template', $data);
@@ -390,6 +396,7 @@ class Admin extends CI_Controller {
     public function proses_update_mahasiswa($id) {
         if ($this->session->userdata('login') != "") {
             $nama = $this->input->post('nama', true);
+            $thn_angkatan = $this->input->post('thn_angkatan', true);
             $alamat = $this->input->post('alamat', true);
             $jk = $this->input->post('jk', true);
             $nm_ayah = $this->input->post('nm_ayah', true);
@@ -400,10 +407,11 @@ class Admin extends CI_Controller {
             $foto = $upload_data['file_name'];
             $thn_akademik = $this->input->post('thn_akademik', true);
             $foto1 = $this->input->post('foto');
+            $format = date('Y-m-d', strtotime($tanggal ));
             if ($foto1 != "") {
-                $query = $this->model->update_mahasiswa_foto($nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto1, $id);
+                $query = $this->model->update_mahasiswa_foto($nama, $alamat, $format, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto1,$thn_angkatan ,$id);
             } else if ($this->model->check_foto_mhs($id) == "") {
-                $query = $this->model->update_mahasiswa_tnp_foto($nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $id);
+                $query = $this->model->update_mahasiswa_tnp_foto($nama, $alamat, $format, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma,$thn_angkatan , $id);
             } else {
                 $config['upload_path'] = './temp_upload/';
                 $config['allowed_types'] = 'gif|jpg|png';
@@ -482,15 +490,58 @@ class Admin extends CI_Controller {
         }
     }
 
+    public function update_status($id) {
+        if ($this->session->userdata('login') != "") {
+            $data = $this->session();
+            $data1['id'] = $id;
+            $data1['check_status_id'] = $this->model->check_status("select * from status where `status`.`status`='1' and `status`.`id`='$id'");
+            $data1['check_status'] = $this->model->check_status("select * from status where `status`.`status`='1'");
+            $data1['option'] = $this->model->ambil_select('type_semester');
+            $data1['edit_status'] = $this->model->row_query("select * from status where id='$id'");
+            $data['content'] = $this->load->view('admin/update_status', $data1, true);
+            $this->load->view('layout/template', $data);
+        } else {
+            redirect(base_url());
+        }
+    }
+
     public function proses_tambah_status() {
         if ($this->session->userdata('login') != "") {
             $thn_akademik1 = $this->input->post('thn_akademik1', true);
             $thn_akademik2 = $this->input->post('thn_akademik2', true);
+            $thn_upl_nilai1 = $this->input->post('tanggal_upload1', true);
+            $thn_upl_nilai2 = $this->input->post('tanggal_upload2', true);
             $jns_semester = $this->input->post('jns_semester', true);
             $tanggal1 = $this->input->post('tanggal1', true);
             $tanggal2 = $this->input->post('tanggal2', true);
             $status = $this->input->post('status', true);
-            $query = $this->model->add_status($thn_akademik1, $thn_akademik2, $jns_semester, $tanggal1, $tanggal2, $status);
+            $query = $this->model->add_status($thn_akademik1, $thn_akademik2, $jns_semester, $tanggal1, $tanggal2, $thn_upl_nilai1, $thn_upl_nilai2, $status);
+            if ($query) {
+                $this->session->set_userdata('operation', "sukses");
+                $this->session->set_userdata('message', "Data Sukses di Simpan");
+                redirect("admin/daftar_status");
+            } else {
+                $this->session->set_userdata('operation', "gagal");
+                $this->session->set_userdata('message', "Data gagal di Simpan");
+                redirect("admin/daftar_status");
+            }
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function proses_update_status() {
+        if ($this->session->userdata('login') != "") {
+            $thn_akademik1 = $this->input->post('thn_akademik1', true);
+            $thn_akademik2 = $this->input->post('thn_akademik2', true);
+            $thn_upl_nilai1 = $this->input->post('tanggal_upload1', true);
+            $thn_upl_nilai2 = $this->input->post('tanggal_upload2', true);
+            $jns_semester = $this->input->post('jns_semester', true);
+            $tanggal1 = $this->input->post('tanggal1', true);
+            $tanggal2 = $this->input->post('tanggal2', true);
+            $status = $this->input->post('status', true);
+            $id = $this->input->post('id', true);
+            $query = $this->model->update_status($thn_akademik1, $thn_akademik2, $jns_semester, $tanggal1, $tanggal2, $thn_upl_nilai1, $thn_upl_nilai2, $status, $id);
             if ($query) {
                 $this->session->set_userdata('operation', "sukses");
                 $this->session->set_userdata('message', "Data Sukses di Simpan");
@@ -577,28 +628,30 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function delete_penawaran_matkul_detail($id) {
+    public function delete_penawaran_matkul_detail($id,$id_detail) {
         if ($this->session->userdata('login') != "") {
-            $query = $this->model->delete_penawaran_matkul_detail1($id);
+            $query = $this->model->delete_penawaran_matkul_detail1($id_detail);
             if ($query) {
                 $this->session->set_userdata('operation', "sukses");
                 $this->session->set_userdata('message', "Data Sukses di Hapus");
-                redirect("admin/daftar_penawaran_matkul_detail");
-            } else {
+                 redirect("admin/detail_penawaran_matkul/$id");
+           } else {
                 $this->session->set_userdata('operation', "gagal");
                 $this->session->set_userdata('message', "Data gagal di Hapus");
-                redirect("admin/daftar_penawaran_matkul_detail");
-            }
+             redirect("admin/detail_penawaran_matkul/$id");
+               }
         } else {
             redirect(base_url());
         }
     }
+    
 
     public function delete_penawaran_matkul($id) {
         if ($this->session->userdata('login') != "") {
             $query = $this->model->delete_penawaran_matkul($id);
             $query2 = $this->model->delete_penawaran_matkul_detail($id);
-            if ($query && $query2) {
+            $query3 = $this->model->delete_penawaran_matkul_dosen($id);
+            if ($query && $query2 && $query3) {
                 $this->session->set_userdata('operation', "sukses");
                 $this->session->set_userdata('message', "Data Sukses di Hapus");
                 redirect("admin/daftar_penawaran_matkul");
@@ -615,9 +668,10 @@ class Admin extends CI_Controller {
     public function detail_penawaran_matkul($id) {
         if ($this->session->userdata('login') != "") {
             $data = $this->session();
+            $status = $this->session->userdata('status');
             $data1['id_penawaran_matkul'] = $id;
             $data1['nama_matkul'] = $this->model->row_query("select matkul.nama from matkul,penawaran_matkul where matkul.kd_matkul = penawaran_matkul.kd_matkul and penawaran_matkul.id ='" . $id . "'");
-            $data1['tabel_penawaran_matkul_detail'] = $this->model->tabel_penawaran_matkul_detail($id);
+            $data1['tabel_penawaran_matkul_detail'] = $this->model->tabel_penawaran_matkul_detail($id,$status);
             $data['content'] = $this->load->view('admin/daftar_penawaran_matkul_detail', $data1, true);
             $this->load->view('layout/template', $data);
         } else {
@@ -637,8 +691,57 @@ class Admin extends CI_Controller {
             redirect(base_url());
         }
     }
-
+    
+    public function edit_penawaran_matkul_detail($id_penawaran_matkul,$id_detail) {
+        if ($this->session->userdata('login') != "") {
+            $data = $this->session();
+            $data1['id_penawaran_matkul'] = $id_penawaran_matkul;
+            $data1['id_detail'] = $id_detail;        
+            $data1['option'] = $this->model->ambil_select('waktu');
+            $data1['option1'] = $this->model->ambil_select('ruang');
+            $data1['edit_penawaran'] = $this->model->row_query("select * from penawaran_matkul_detail where id='$id_detail'");
+            $data['content'] = $this->load->view('admin/update_detail_penawaran_matkul', $data1, true);
+            $this->load->view('layout/template', $data);
+        } else {
+            redirect(base_url());
+        }
+    }
+    
     public function proses_add_penawaran_matkul_detail() {
+        if ($this->session->userdata('login') != "") {
+            $data = $this->session(); 
+            $id = $this->input->post('id_penawaran_matkul');
+            $kelas = $this->input->post('kelas');
+            $ruang = $this->input->post('ruang');
+            $jumlah = $this->input->post('jumlah');
+            $waktu = $this->input->post('waktu');
+            $hari = $this->input->post('hari');
+            $id_status = $this->session->userdata('status');
+            $query2 = $this->model->check_status("select * from penawaran_matkul_detail where kd_waktu='$waktu' 
+            and ruang='$ruang' and hari = '$hari' and id_status='$id_status'");
+            if($query2 == true){
+                    $this->session->set_userdata('operation', "validasi");
+                    $this->session->set_userdata('message', "Data gagal di Simpan karena waktu ,ruang, dan hari ada pada jam yang sama");
+                    redirect("admin/detail_penawaran_matkul/$id");
+            }else{
+                $query = $this->model->add_penawaran_matkul_detail($kelas, $ruang, $jumlah, $waktu, $hari,$id_status, $id);
+                if ($query) {
+                    $this->session->set_userdata('operation', "sukses");
+                    $this->session->set_userdata('message', "Data Sukses di Simpan");
+                    redirect("admin/detail_penawaran_matkul/$id");
+                } else {
+                    $this->session->set_userdata('operation', "gagal");
+                    $this->session->set_userdata('message', "Data gagal di Simpan");
+                    redirect("admin/detail_penawaran_matkul/$id");
+                }
+                echo "salah";
+            } 
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function proses_update_penawaran_matkul_detail($id_detail) {
         if ($this->session->userdata('login') != "") {
             $data = $this->session();
             $id = $this->input->post('id_penawaran_matkul');
@@ -647,7 +750,8 @@ class Admin extends CI_Controller {
             $jumlah = $this->input->post('jumlah');
             $waktu = $this->input->post('waktu');
             $hari = $this->input->post('hari');
-            $query = $this->model->add_penawaran_matkul_detail($kelas, $ruang, $jumlah, $waktu, $hari, $id);
+            $id_status = $this->session->userdata('status');
+            $query = $this->model->update_penawaran_matkul_detail($kelas, $ruang, $jumlah, $waktu, $hari,$id_status, $id,$id_detail);
             if ($query) {
                 $this->session->set_userdata('operation', "sukses");
                 $this->session->set_userdata('message', "Data Sukses di Simpan");
@@ -655,7 +759,7 @@ class Admin extends CI_Controller {
             } else {
                 $this->session->set_userdata('operation', "gagal");
                 $this->session->set_userdata('message', "Data gagal di Simpan");
-                redirect("admin/detail_penawaran_matkul/$id");
+               redirect("admin/detail_penawaran_matkul/$id");
             }
         } else {
             redirect(base_url());
@@ -679,8 +783,8 @@ class Admin extends CI_Controller {
             $data1['id_absensi'] = $id;
             $data1['kelas'] = $kelas;
             $status = $this->session->userdata('status');
-            $data1['nama_matkul'] = $this->model->row_query("select nama from v_penawaran_matkul_detail where v_penawaran_matkul_detail.id ='" . $id . "'");
-            $data1['tabel_absensi'] = $this->model->array_query("select * from absensi where kd_matkul='$id' and id_status='$status'");
+            $data1['nama_matkul'] = $this->model->row_query("select nama from v_penawaran_matkul_detail where v_penawaran_matkul_detail.id_detail ='" . $id . "'");
+            $data1['tabel_absensi'] = $this->model->array_query("SELECT `absensi`.`id_absensi`, `absensi`.`tanggal`, `absensi`.`kd_matkul`, `absensi`.`id_status` , `absensi_detail`.`id_absensi_detail` FROM `absensi` LEFT OUTER JOIN `absensi_detail` ON `absensi`.`id_absensi` = `absensi_detail`.`id_absensi` where kd_matkul='$id' and id_status='$status'");
             $data['content'] = $this->load->view('admin/daftar_absensi_perkuliahan_detail', $data1, true);
             $this->load->view('layout/template', $data);
         } else {
@@ -715,7 +819,7 @@ class Admin extends CI_Controller {
             $data1['id_absensi'] = $id;
             $data1['kelas'] = $kelas;
             $data1['id'] = $id_absen;
-            $data1['nama_matkul'] = $this->model->row_query("select nama from v_penawaran_matkul_detail where v_penawaran_matkul_detail.id ='" . $id_absen . "'");
+            $data1['nama_matkul'] = $this->model->row_query("select nama from v_penawaran_matkul_detail where v_penawaran_matkul_detail.id_detail ='" . $id_absen . "'");
             $status = $this->session->userdata('status');
             $data1['tanggal'] = $this->model->row_query("select tanggal from absensi where absensi.id_absensi ='" . $id . "'");
             if ($this->model->check_status("select * from absensi_detail where id_absensi='$id'")) {
@@ -815,11 +919,15 @@ class Admin extends CI_Controller {
         $data['keterangan'] = "Admin";
         $data['foto'] = "prabowo.png";
         $data['user_online'] = $this->model->row_query("SELECT  count(distinct id_ip) as jumlah from user_online where status=1");
-        $thnakademik1 = $this->model->row_query("SELECT thn_akademik1,thn_akademik2 from status where status=1");
-        $data['thn_akademik'] = $thnakademik1->thn_akademik1 . "/" . $thnakademik1->thn_akademik2;
-        $id = $this->model->row_query("SELECT id from status where status=1");
-        $this->session->set_userdata('status', $id->id);
         $data['status_aktif'] = $this->model->check_status("select * from status where status ='1'");
+        if ($this->model->check_status("select * from status where status ='1'")) {
+            $thnakademik1 = $this->model->row_query("SELECT thn_akademik1,thn_akademik2 from status where status=1");
+            $data['thn_akademik'] = $thnakademik1->thn_akademik1 . "/" . $thnakademik1->thn_akademik2;
+            $id = $this->model->row_query("SELECT id from status where status=1");
+            $this->session->set_userdata('status', $id->id);
+        } else{
+            $data['thn_akademik'] = "BELUM ADA";
+        }
         $this->model->ambil_nama($this->session->userdata('type'), $this->session->userdata('username'));
         return $data;
     }
@@ -827,4 +935,4 @@ class Admin extends CI_Controller {
 }
 
 /* End of file welcome.php */
-    /* Location: ./application/controllers/welcome.php */
+/* Location: ./application/controllers/welcome.php */

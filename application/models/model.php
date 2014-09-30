@@ -308,8 +308,9 @@ class Model extends CI_Model {
         return $query->row();
     }
 
-    function add_mahasiswa($nim, $nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto) {
+    function add_mahasiswa($nim, $nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto,$thn_angkatan) {
         $this->db->set('nim', $nim);
+        $this->db->set('thn_angkatan', $thn_angkatan);
         $this->db->set('nama', $nama);
         $this->db->set('alamat', $alamat);
         $this->db->set('thn_akademik', $thn_akademik);
@@ -339,11 +340,12 @@ class Model extends CI_Model {
         }
     }
 
-    function update_mahasiswa_tnp_foto($nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $id) {
+    function update_mahasiswa_tnp_foto($nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma,$thn_angkatan, $id) {
         $data = array(
             'nama' => $nama,
             'alamat' => $alamat,
             'tanggal' => $tanggal,
+            'thn_angkatan' => $thn_angkatan,
             'thn_akademik' => $thn_akademik,
             'kelamin' => $jk,
             'nm_ibu' => $nm_ibu,
@@ -359,12 +361,13 @@ class Model extends CI_Model {
         }
     }
 
-    function update_mahasiswa_foto($nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto, $id) {
+    function update_mahasiswa_foto($nama, $alamat, $tanggal, $jk, $nm_ayah, $nm_ibu, $thn_akademik, $sma, $foto,$thn_angkatan, $id) {
         $data = array(
             'nama' => $nama,
             'alamat' => $alamat,
             'tanggal' => $tanggal,
             'thn_akademik' => $thn_akademik,
+            'thn_angkatan' => $thn_angkatan,
             'kelamin' => $jk,
             'nm_ibu' => $nm_ibu,
             'nm_ayah' => $nm_ayah,
@@ -380,12 +383,14 @@ class Model extends CI_Model {
         }
     }
 
-    function add_status($thn_akademik1, $thn_akademik2, $jns_semester, $tanggal1,$tanggal2,$status) {
+    function add_status($thn_akademik1, $thn_akademik2, $jns_semester, $tanggal1,$tanggal2,$thn_upl_nilai1,$thn_upl_nilai2,$status) {
         $this->db->set('thn_akademik1', $thn_akademik1);
         $this->db->set('thn_akademik2', $thn_akademik2);
+        $this->db->set('masa_upl_nilai1', $thn_upl_nilai1);
+        $this->db->set('masa_upl_nilai2', $thn_upl_nilai2);
         $this->db->set('status', $status);
         $this->db->set('jns_semester', $jns_semester);
-        $this->db->set('masa_krs1', $tangga1);
+        $this->db->set('masa_krs1', $tanggal1);
         $this->db->set('masa_krs2', $tanggal2);
         $query = $this->db->insert('status');
         if ($query) {
@@ -395,6 +400,25 @@ class Model extends CI_Model {
         }
     }
     
+     function update_status($thn_akademik1, $thn_akademik2, $jns_semester, $tanggal1,$tanggal2,$thn_upl_nilai1,$thn_upl_nilai2,$status,$id){
+        $data = array(
+            'thn_akademik1' => $thn_akademik1,
+            'thn_akademik2' => $thn_akademik2,
+            'masa_upl_nilai1' => $thn_upl_nilai1,
+            'masa_upl_nilai2' => $thn_upl_nilai2,
+            'status' => $status,
+            'jns_semester' => $jns_semester,
+            'masa_krs1' => $tanggal1,
+            'masa_krs2' => $tanggal2
+        );
+        $this->db->where('id', $id);
+        $query = $this->db->update('status', $data);
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
      function delete_status($id) {
         $query = $this->db->delete('status', array('id' => $id));
@@ -428,14 +452,34 @@ class Model extends CI_Model {
         }
     }
     
-    function add_penawaran_matkul_detail($kelas, $ruang, $jumlah, $waktu, $hari,$id) {
+    function add_penawaran_matkul_detail($kelas, $ruang, $jumlah, $waktu, $hari,$id_status,$id) {
         $this->db->set('kelas', $kelas);
         $this->db->set('ruang', $ruang);
         $this->db->set('jumlah', $jumlah);
         $this->db->set('kd_waktu', $waktu);
         $this->db->set('hari', $hari);
         $this->db->set('id_penawaran_matkul', $id);
+        $this->db->set('id_status', $id_status);
         $query = $this->db->insert('penawaran_matkul_detail');
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function update_penawaran_matkul_detail($kelas, $ruang, $jumlah, $waktu, $hari,$id_status,$id,$id_detail) {
+        $data = array(
+            'kelas' => $kelas,
+            'ruang' => $ruang,
+            'jumlah' => $jumlah,
+            'kd_waktu' => $waktu,
+            'hari' => $hari,
+            'id_status' => $id_status,
+            'id_penawaran_matkul' => $id
+        );
+        $this->db->where('id', $id_detail);
+        $query = $this->db->update('penawaran_matkul_detail', $data);
         if ($query) {
             return true;
         } else {
@@ -453,8 +497,8 @@ class Model extends CI_Model {
         return $query->result();
     }
     
-    function tabel_penawaran_matkul_detail($id) {
-        $query = $this->db->query("SELECT * FROM `v_penawaran_matkul_detail` WHERE id_pm ='$id'");
+    function tabel_penawaran_matkul_detail($id,$status) {
+        $query = $this->db->query("SELECT * FROM `v_penawaran_matkul_detail` WHERE id_pm ='$id' and id_status='$status'");
         return $query->result();
     }
     
@@ -477,6 +521,15 @@ class Model extends CI_Model {
             return false;
         }
     }
+    
+     function delete_penawaran_matkul_dosen($id) {
+        $query = $this->db->delete('penawaran_matkul_dosen', array('id_penawaran_matkul' => $id));
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+     }
     
      function delete_penawaran_matkul_detail1($id) {
         $query = $this->db->delete('penawaran_matkul_detail', array('id' => $id));
@@ -566,6 +619,34 @@ class Model extends CI_Model {
         $query = $this->db->query($query);
         if(!$query){
            echo "query anda salah";
+        }
+    }
+    
+    function add_nilai_mahasiswa($keterangan, $nim, $id,$status) {
+        $this->db->set('nim', $nim);
+        $this->db->set('nilai', $keterangan);
+        $this->db->set('kd_matkul_detail', $id);
+        $this->db->set('status', $status);
+        $query = $this->db->insert('nilai_detail');
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+     function update_nilai_mahasiswa($keterangan, $nim, $id,$status) {
+       $data = array(
+            'nilai' => $keterangan
+        );
+        $this->db->where('nim', $nim);
+        $this->db->where('kd_matkul_detail', $id);     
+        $this->db->where('status', $status);     
+        $query = $this->db->update('nilai_detail', $data);
+        if ($query) {
+            return true;
+        } else {
+            return false;
         }
     }
     

@@ -1,26 +1,3 @@
- <?php
-$operasi = $this->session->userdata('operation');
-if ($operasi != null) {
-    if ($operasi == "sukses") {
-        echo '<div class="alert alert-success">
-                 <a class="close" data-dismiss="alert">×</a>
-                 <i class="icon icon-thumbs-up-alt"></i> <b>Selamat</b>' . $this->session->userdata('message') . '</i>
-                 </div>';
-    } else if ($operasi == "validasi") {
-        echo '<div class="alert alert-error">
-      <a class="close" data-dismiss="alert">×</a>
-      <i class="icon icon-warning-sign"></i> <b>Maaf</b> ' . $this->session->userdata('message') . '</i>
-    </div>';
-    } else if ($operasi == "gagal") {
-        echo '<div class="alert alert-error">
-      <a class="close" data-dismiss="alert">×</a>
-      <i class="icon icon-warning-sign"></i> <b>Maaf</b> ' . $this->session->userdata('message') . '</i>
-    </div>';
-    }
-}
-$this->session->unset_userdata('operation');
-$this->session->unset_userdata('message');
-?>
 
 <div class="span12">      		
     <div class="widget ">
@@ -66,13 +43,20 @@ $this->session->unset_userdata('message');
                          </div> <!-- /controls -->
                         
                     </div> <!-- /control-group -->
-                     <div class="control-group">											
-                    <label class="control-label" for="firstname">Masa Krs :</label>
-                    <div class="controls">
-                        <input type="text" id="datepicker" class="span2" name="tanggal1" id="tanggal1" /> s/d
-                        <input type="text" id="datepicker" class="span2" name="tanggal2"  id="tanggal2"/>
-                    </div> <!-- /controls -->				
-                </div> <!-- /control-group -->
+                    <div class="control-group">											
+                        <label class="control-label" for="firstname">Masa Krs :</label>
+                        <div class="controls">
+                            <input type="text" id="datepicker" class="span2" name="tanggal1" /> s/d
+                            <input type="text" id="datepicker1" class="span2" name="tanggal2"  />
+                        </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->
+                    <div class="control-group">											
+                        <label class="control-label" for="firstname">Masa Upload Nilai :</label>
+                        <div class="controls">
+                            <input type="text" id="datepicker2" class="span2" name="tanggal_upload1"  /> s/d
+                            <input type="text" id="datepicker3" class="span2" name="tanggal_upload2"  />
+                        </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->
                     <br />
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">Save</button> 
@@ -101,9 +85,9 @@ $this->session->unset_userdata('message');
                 },
                 semester: "required",
                 tanggal1: "required",
-                tanggal2: "required"
-                
-                   
+                tanggal2: "required",
+                tanggal3: "required",
+                tanggal4: "required"                   
             },
             messages: {
                 thn_akademik1: {
@@ -115,8 +99,10 @@ $this->session->unset_userdata('message');
                     number : "harus angka"
                 },
                 Semester : "Semester Harus diisi ! ",
-                tanggal1 : "Tanggal1 Harus diisi ! ",
-                tanggal2 : "Tanggal2 Harus diisi ! "
+                tanggal1 : "Tanggal Krs Harus diisi ! ",
+                tanggal2 : "Tanggal Krs Harus diisi ! ",
+                tanggal3 : "Tanggal Upload Nilai Harus diisi ! ",
+                tanggal4 : "Tanggal Upload Nilai Harus diisi ! "
              
                 
               }

@@ -8,16 +8,32 @@
 <script src="<?php echo base_url(); ?>asset/js/base.js"></script>
 <script src="<?php echo base_url(); ?>asset/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-    $('#example').dataTable();
-});
+    $(document).ready(function() {
+      $('#example').dataTable( {
+        "pagingType": "full_numbers"
+    });
+    });
 </script>
 
 <script>
-  $(function() {
-        $( "#datepicker" ).datepicker({
-			dateFormat: 'yy-mm-dd'
-		});
+    $(function() {
+      $( "#datepicker" ).datepicker({
+//      changeMonth: true,
+//      changeYear: true
+dateFormat: 'yy-mm-dd'
+    });
+        $( "#datepicker1" ).datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+        $( "#datepicker2" ).datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+        $( "#datepicker3" ).datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+        $( "#datepicker4" ).datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
     });
 </script>
 

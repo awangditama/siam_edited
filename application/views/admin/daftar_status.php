@@ -42,6 +42,7 @@ $this->session->unset_userdata('message');
                         <th> Tahun Akademik </th>
                         <th> Type Akademik</th>
                         <th> Masa Krs</th>
+                        <th> Masa Upload Nilai</th>
                         <th> Status </th>
                         <th> Aksi </th>
                    
@@ -54,9 +55,11 @@ $this->session->unset_userdata('message');
                         <td> <?php echo $no; ?> </td>
                         <td> <?php echo $row->thn_akademik1; ?> / <?php echo $row->thn_akademik2; ?>  </td>
                         <td> <?php echo $row->nama_semester; ?> </td>
-                        <td> <?php echo $row->masa_krs1; ?> s/d <?php echo $row->masa_krs2; ?></td>
+                        <td> <?php echo date('d-m-Y', strtotime($row->masa_krs1)); ?> s/d <?php echo date('d-m-Y', strtotime($row->masa_krs2)); ?></td>
+                        <td> <?php echo date('d-m-Y', strtotime($row->masa_upl_nilai1)); ?> s/d <?php echo date('d-m-Y', strtotime($row->masa_upl_nilai2)); ?></td>
                         <td> <?php if($row->status==1){ echo "Aktif"; }else{echo "Tidak Aktif"; }  ?> </td>
-                        <td> <a class="btn btn-danger" href="<?php echo base_url(); ?>index.php/admin/delete_status/<?php echo $row->id ?>"  title="Hapus Data" onclick="return confirm('Apakah anda yakin untuk menghapus data ?');"><i class="icon-remove-sign"></i> Remove</a></td>
+                        <td> <a  class="btn btn-success" href="<?php echo base_url(); ?>index.php/admin/update_status/<?php echo $row->id ?>"  title="Detail Data"><i class="icon-archive"></i> Edit </a>
+                      | <a class="btn btn-danger" href="<?php echo base_url(); ?>index.php/admin/delete_status/<?php echo $row->id ?>"  title="Hapus Data" onclick="return confirm('Apakah anda yakin untuk menghapus data ?');"><i class="icon-remove-sign"></i> Remove</a></td>
                          
                     </tr>
                  <?php $no++; } ?>   

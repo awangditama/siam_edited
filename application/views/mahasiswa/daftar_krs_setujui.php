@@ -63,7 +63,8 @@ $this->session->unset_userdata('message');
                         <th> Mata Kuliah</th>
                         <th> Jumlah Sks</th>
                         <th> Jenis Mata Kuliah</th>
-                        <?php if ($tanggal_krs && !$setujui_krs) { ?>                 
+                        <th> Kelas</th>
+                         <?php if ($tanggal_krs && !$setujui_krs) { ?>                 
                             <th> Aksi </th><?php } ?>
 
                     </tr>
@@ -77,6 +78,7 @@ $this->session->unset_userdata('message');
                             <td> <?php echo $row->nama; ?></td>
                             <td> <?php echo $row->jumlah_sks; ?> </td>
                             <td> <?php echo $row->nama_pilihan; ?> </td>  
+                            <td> <?php echo $row->kelas; ?> </td>  
                             <?php if ($tanggal_krs && !$setujui_krs) { ?>
                                 <td><a class="btn btn-danger" href="<?php echo base_url(); ?>index.php/mahasiswa/delete_krs/<?php echo $row->id ?>" class="icon-archive" title="Detail Data"><i class="icon-remove" ></i> Remove </a>
                                 <?php } ?>
@@ -84,7 +86,8 @@ $this->session->unset_userdata('message');
                         <?php $no++;
                     } ?>   
                 </tbody>
-            </table>		
+            </table>	
+           <a class="btn btn-default" href="<?php echo base_url(); ?>index.php/mahasiswa/cetak_krs" title="Detail Data"><i class="icon-archive" ></i> Cetak</a>
         </div>
     </div>                       
 </div>

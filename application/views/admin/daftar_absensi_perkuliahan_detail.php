@@ -56,6 +56,7 @@ $this->session->unset_userdata('message');
                     <tr>
                         <th> No </th>
                         <th> Tanggal</th>
+                        <th> Status Data Absensi </th>
                         <th> Aksi</th>                       
                     </tr>
                 </thead>
@@ -65,6 +66,7 @@ $this->session->unset_userdata('message');
                         <tr >
                             <td> <?php echo $no; ?> </td>
                             <td> <?php echo date('d-F-y', strtotime($row->tanggal)); ?> </td>     
+                            <td> <?php if($row->id_absensi_detail == null){ echo "Belum Ada Data Inputan"; }else{ echo "Sudah Ada Data Inputan"; } ?> </td>     
                             <input type="hidden" id="no" value="<?php echo $no; ?>"/>    
                             <input type="hidden" id="id_absen<?php echo $no; ?>" value="<?php echo $row->id_absensi;?>"/>
                             <td><a class="btn btn-primary" href="<?php echo base_url(); ?>index.php/admin/detail_absensi_mahasiswa/<?php echo $row->id_absensi ?>/<?php echo $kelas;?>/<?php echo $id_absensi; ?>" class="icon-archive" title="Detail Data"><i class="icon-archive" ></i> Detail Data </a>
