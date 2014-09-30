@@ -64,7 +64,23 @@
                             </select> 
                         </div> <!-- /controls -->				
                     </div> <!-- /control-group -->   
+                     <div class="control-group">											
+                        <label class="control-label" for="lastname">Hari</label>
+                        <div class="controls">
+                             <select name="hari" id="hari" required>
+                                <option value="">--</option>                                                         
+                                <option value="Senin">Senin</option>
+                                <option value="Senin">Selasa</option>
+                                <option value="Senin">Rabu</option>
+                                <option value="Senin">Kamis</option>
+                                <option value="Senin">Jumat</option>
+                                <option value="Senin">Sabtu</option> 
+                            </select> 
+                        </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->   
+                    
                     <br />
+                    
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">Save</button> 
                     </div> <!-- /form-actions -->
